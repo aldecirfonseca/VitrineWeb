@@ -1,69 +1,75 @@
-# CodeIgniter 4 Application Starter
+# VitrineWeb
 
-## What is CodeIgniter?
+Projeto prático da disciplina **Frameworks II**, do curso de **Análise e Desenvolvimento de Sistemas** da **Faculdade Santa Marcelina — Muriaé/MG**, ministrada pelo Professor Especialista **Aldecir Fonseca**.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Sobre a disciplina
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- **Curso:** Análise e Desenvolvimento de Sistemas
+- **Período:** 6º
+- **Disciplina:** Frameworks II
+- **Carga horária:** 40 horas
+- **Ano letivo:** 2026
+- **Professor:** Aldecir de Almeida Fonseca (aldecir.fonseca@santamarcelina.edu.br)
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### Objetivo
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Fornecer ao aluno, através do estudo das tecnologias e conceitos de frameworks de programação em PHP, os conhecimentos necessários para a criação, implantação e manutenção de aplicações web dinâmicas.
 
-## Installation & updates
+### Ementa
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Frameworks de mercado, vantagens e desvantagens, principais diferenças entre os frameworks, conceitos e bibliotecas, com desenvolvimento de projeto prático de aplicação utilizando o framework **CodeIgniter 4**.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## Sobre o projeto
 
-## Setup
+O **VitrineWeb** é o projeto prático da disciplina: um **mini e-commerce**, contemplando:
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+- Área administrativa;
+- Catálogo de produtos e categorias;
+- Carrinho de compras e pedidos.
 
-## Important Change with index.php
+O projeto é desenvolvido de forma incremental ao longo do semestre, acompanhando o conteúdo programático da disciplina.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Conteúdo programático
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+1. **Introdução ao CodeIgniter** — requisitos mínimos, instalação, estrutura de arquivos e pastas, idioma das mensagens padrão, rotas.
+2. **MVC** — carregamento de models, parâmetros via URL, nomes reservados, views, templates e validação de formulários.
+3. **Sessões** — configuração e uso da library `session`, sessões permanentes e temporárias, destruição de sessões.
+4. **Banco de dados** — configuração da conexão, migrations, consultas, Query Builder e CRUD, controle de transações.
+5. **Upload de imagens.**
+6. **Envio de e-mails.**
+7. **Controle de acesso e permissões.**
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## Tecnologias
 
-## Repository Management
+- PHP 8.2+
+- [CodeIgniter 4](https://codeigniter.com)
+- MySQL
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## Como executar
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+1. Copie o arquivo `env` para `.env` e configure a `baseURL` e os dados de conexão com o banco.
+2. Instale as dependências:
+   ```
+   composer install
+   ```
+3. Rode as migrations (quando disponíveis):
+   ```
+   php spark migrate
+   ```
+4. Suba o servidor embutido do CodeIgniter:
+   ```
+   php spark serve
+   ```
 
-## Server Requirements
+> O `index.php` fica dentro da pasta `public`. Aponte seu servidor web (ou virtual host) para essa pasta, e não para a raiz do projeto.
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+## Referências bibliográficas
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+**Básica**
+- MILANI, André. *Construindo Aplicações Web com PHP e MySQL*. São Paulo: Novatec, 2017.
+- DALL'OGLIO, Pablo. *PHP: Programando com orientação a objetos*. São Paulo: Novatec, 2017.
+- LOCKHART, Josh. *PHP Moderno: Novos recursos e boas práticas*. São Paulo: Novatec, 2016.
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+**Complementar**
+- SARAIVA, Maurício de Oliveira; BARRETO, Jeanine dos Santos. *Desenvolvimento de Sistemas com PHP*. Porto Alegre: Sagah, 2018.
+- WEY, Estelle. *Mobile HTML 5: usando o que há de mais moderno atualmente*. São Paulo: Novatec, 2014.
