@@ -1,0 +1,44 @@
+/* ---------------------------------------
+##### - CUSTOMIZAÇÕES CSS - #####
+--------------------------------------- */
+
+.contato-link-email {
+    color: #000000;
+    font-size: 1.5rem;
+}
+
+.quemsomos-link-empresa {
+    color: #000000;
+    font-size: 1rem;
+}
+
+.quemsomos-link-empresa:hover {
+    color: #0315ff;
+    font-size: 1rem;
+}
+
+.produto-promocao {
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: #ff0000;
+    font-weight: 400;
+}
+
+.produto-promocao-span {
+    display: inline-block;
+    font-size: 14px;
+    color: #787878;
+    font-weight: 400;
+    text-decoration: line-through;
+    margin-right: 15px;
+}
+
+.error-alert-texto {
+    color: #ff041d !important;
+    font-size: 18px;
+}
+
+.login_box_criarconta {
+    background-color: darkgrey;
+    border-radius: 2%;
+}
