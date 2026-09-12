@@ -8,138 +8,77 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Title  -->
-        <title>Essence - Moda Ecommerce</title>
+        <title>VitrineWeb - Painel Administrativo</title>
 
         <!-- Favicon  -->
-        <link rel="icon" href="<?= base_url() ?>assets/img/core-img/favicon.ico">
+        <link rel="icon" type="image/svg+xml" href="<?= base_url() ?>assets/img/core-img/favicon.svg">
+        <link rel="alternate icon" href="<?= base_url() ?>assets/img/core-img/favicon.ico">
 
-        <!-- Core Style CSS -->
-        <link rel="stylesheet" href="<?= base_url() ?>assets/css/core-style.css">
-        <link rel="stylesheet" href="<?= base_url() ?>assets/style.css">
-
-        <script src="<?= base_url("assets/js/jquery/jquery-3.2.1.min.js") ?>"></script>
-        <script src="<?= base_url("assets/js/jqueryMask.js") ?>" type="text/Javascript"></script>
+        <!-- Bootstrap 5 -->
+        <link rel="stylesheet" href="<?= base_url() ?>assets/vendor/bootstrap/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="<?= base_url() ?>assets/css/font-awesome.min.css">
+        <!-- Theme -->
+        <link rel="stylesheet" href="<?= base_url() ?>assets/css/theme.css">
 
     </head>
 
-    <body>
+    <body class="admin-body">
 
-        <!-- ##### Inicio Cabeçalho ##### -->
-        <header class="header_area">
-            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
-                <!-- Classy Menu -->
-                <nav class="classy-navbar" id="essenceNav">
-                    <!-- Logo -->
-                    <a class="nav-brand" href="<?= base_url() ?>">VitrineWeb</a>
-                    <!-- Navbar Toggler -->
-                    <div class="classy-navbar-toggler">
-                        <span class="navbarToggler"><span></span><span></span><span></span></span>
-                    </div>
-                    <!-- Menu -->
-                    <div class="classy-menu">
-                        <!-- close btn -->
-                        <div class="classycloseIcon">
-                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                        </div>
-                        <!-- Nav Start -->
-                        <div class="classynav">
-                            <ul>
-                                <li><a href="<?= base_url() ?>Sistema/home">Home</a></li>
-
-                                <li><a href="#">Cadastros</a>
-                                    <ul class="dropdown">
-                                        <li><a href="<?= base_url() ?>Categoria/lista">Categoria</a></li>
-                                        <li><a href="<?= base_url() ?>Produto/lista">Produto</a></li>
-                                    </ul>
-                                </li>
-
-                                <li><a href="#">Aldecir Fonseca</a>
-                                    <ul class="dropdown">
-                                        <li><a href="<?= base_url() ?>Login/signOut">Sair</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a href="#">Trocar a Senha</a></li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <!-- Nav End -->
-                    </div>
-                </nav>
-
-            </div>
-        </header>
-        <!-- ##### fim do cabeçalho ##### -->
-
-        <?= $this->renderSection("main") ?>
-
-        <!-- ##### Inicio do Rodapé ##### -->
-        <footer class="footer_area clearfix mt-5">
+        <!-- ##### Navbar ##### -->
+        <nav class="navbar navbar-expand-lg admin-navbar" data-bs-theme="dark">
             <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="single_widget_area d-flex mb-30">
-                            <div class="footer-logo mr-50">
-                                <a href="<?= base_url() ?>"><img src="<?= base_url() ?>assets/img/core-img/logo2.png" alt=""></a>
-                            </div>
-                            <div class="footer_menu">
-                                <ul>
-                                    <li><a href="<?= base_url() ?>">Shop</a></li>
-                                    <li><a href="<?= base_url() ?>Home/quemsomos">Quem somos</a></li>
-                                    <li><a href="<?= base_url() ?>Home/contato">Contato</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="single_widget_area mb-30">
-                            <ul class="footer_widget_menu">
-                                <li><a href="#">Status Pedido</a></li>
-                                <li><a href="#">Opções de Pagamento</a></li>
-                                <li><a href="#">Envio e Entrega</a></li>
-                                <li><a href="#">Guias</a></li>
-                                <li><a href="#">Políticas de Privacidade</a></li>
-                                <li><a href="#">Termos de Uso</a></li>
+
+                <a class="navbar-brand" href="#">VitrineWeb <span class="fw-normal opacity-75">Admin</span></a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminMenu" aria-controls="adminMenu" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="adminMenu">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cadastros</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="<?= base_url("Categoria") ?>">Categoria</a></li>
+                                <li><a class="dropdown-item" href="#">Produto</a></li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
+                        </li>
+                    </ul>
 
-                <div class="row align-items-end text-center">
-                    <div class="col-12">
-                        <div class="single_widget_area">
-                            <div class="footer_social_area">
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col-md-12 text-center">
-                        <p>
-                            Copyright &copy;
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script> Todos os direitos reservados | Desenvolvido por Aldecir Fonseca
-                        </p>
-                    </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user-circle me-1"></i> Aldecir Fonseca
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">Trocar a senha</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
+        </nav>
+        <!-- ##### /Navbar ##### -->
+
+        <main class="py-4">
+            <?= $this->renderSection("main") ?>
+        </main>
+
+        <footer class="text-center text-muted small py-4">
+            &copy; <?= date("Y") ?> VitrineWeb — Painel Administrativo
         </footer>
 
-        <!-- ##### Fim do Rodapé ##### -->
+        <!-- Bootstrap 5 (inclui Popper) -->
+        <script src="<?= base_url() ?>assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+        <!-- Theme -->
+        <script src="<?= base_url() ?>assets/js/theme.js"></script>
 
     </body>
-
-    <script src="<?= base_url() ?>assets/js/popper.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/plugins.js"></script>
-    <script src="<?= base_url() ?>assets/js/classy-nav.min.js"></script>
-    <script src="<?= base_url() ?>assets/js/active.js"></script>
 
 </html>

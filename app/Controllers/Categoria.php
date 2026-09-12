@@ -54,7 +54,7 @@ class Categoria extends BaseController
         $id     = (int) $this->request->getPost("id");
 
         $dados = [
-            "id"            => $id > 0 ? $id : null,
+            "id"             => $id > 0 ? $id : null,
             "descricao"      => $this->request->getPost("descricao"),
             "statusRegistro" => $this->request->getPost("statusRegistro"),
         ];
@@ -67,7 +67,7 @@ class Categoria extends BaseController
 
         session()->setFlashdata("msgSucesso", "Categoria salva com sucesso.");
 
-        return redirect()->to("categoria");
+        return redirect()->to("Categoria");
     }
 
     /**
@@ -85,6 +85,6 @@ class Categoria extends BaseController
             session()->setFlashdata("msgSucesso", "Categoria excluída com sucesso.");
         }
 
-        return redirect()->to("categoria");
+        return redirect()->to("Categoria");
     }
 }
