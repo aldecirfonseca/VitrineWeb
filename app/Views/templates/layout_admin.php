@@ -56,7 +56,7 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#">Trocar a senha</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Sair</a></li>
+                                <li><a class="dropdown-item" href="<?= base_url("Login/signOut") ?>">Sair</a></li>
                             </ul>
                         </li>
                     </ul>

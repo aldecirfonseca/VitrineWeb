@@ -86,13 +86,13 @@
                                 <li class="nav-item"><a class="nav-link" href="<?= base_url("faleconosco") ?>">Contato</a></li>
 
                                 <li class="nav-item d-lg-none mt-2">
-                                    <a class="nav-link" href="#">Entre ou Cadastre-se</a>
+                                    <a class="nav-link" href="<?= base_url("login") ?>">Entre ou Cadastre-se</a>
                                 </li>
                             </ul>
 
                             <div class="d-none d-lg-flex align-items-center ms-3">
                                 <a href="#" class="icon-link" title="Pesquisar"><i class="fa fa-search"></i></a>
-                                <a href="#" class="icon-link" title="Minha conta"><i class="fa fa-user-o"></i></a>
+                                <a href="<?= base_url("login") ?>" class="icon-link" title="Minha conta"><i class="fa fa-user-o"></i></a>
                                 <a href="#" class="icon-link" title="Carrinho">
                                     <i class="fa fa-shopping-bag"></i>
                                     <span class="badge rounded-pill bg-dark">3</span>
