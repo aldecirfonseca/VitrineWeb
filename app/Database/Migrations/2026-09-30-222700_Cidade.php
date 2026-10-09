@@ -26,7 +26,7 @@ class Cidade extends Migration
             ],
             'codIBGE' => [
                 'type'          => 'VARCHAR',
-                'constraint'    => 5,
+                'constraint'    => 7,
             ],
             'created_at' => [
                 'type'          => 'DATETIME',

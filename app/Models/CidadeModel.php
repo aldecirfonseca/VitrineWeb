@@ -5,7 +5,7 @@ namespace App\Models;
 class CidadeModel extends BaseModel
 {
     protected $table = 'cidade';
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
 
     protected $allowedFields = ['uf_id', 'nome', 'codIBGE'];
 
@@ -18,7 +18,7 @@ class CidadeModel extends BaseModel
             "rules" => 'required'
         ],
         "nome"  => [
-            "label" => 'Nome da Ciadde',
+            "label" => 'Nome da Cidade',
             "rules" => 'required|min_length[3]|max_length[60]'
         ],
         "codIBGE"  => [
@@ -28,37 +28,18 @@ class CidadeModel extends BaseModel
     ];
 
     /**
-     * getUf
+     * getCidade
      *
-     * @param string $sigla 
-     * @return array
+     * @param string $uf
+     * @param string $cidade
+     * @return array|null
      */
-    public function getCidade($uf, $cidade) 
+    public function getCidade($uf, $cidade)
     {
-        $dados = $this->join("uf", "uf.id = cidade.uf_id")->where(["uf.sigla" => $uf, "cidade.nome" => $cidade])->first();
-        
-        if (is_null($dados)) {
-
-            if ($uf == "MG" and $cidade == "Muriae") {
-
-                $UfModel = new UfModel();
-
-                $aUf = $UfModel->getUf("MG");
-
-                $this->save([
-                    "uf_id" => $aUf['id'],
-                    "nome" => $cidade,
-                    "codIBGE" => "3143906"
-                ]);
-
-                return $this->join("uf", "uf.id = cidade.uf_id")->where(["uf.sigla" => $uf, "cidade.nome" => $cidade])->first();
-
-            } else {
-                return [];
-            }            
-
-        } else {
-            return $dados;
-        }
+        // select explícito: sem ele o "id" da UF sobrescreve o "id" da cidade no join
+        return $this->select("cidade.*")
+                    ->join("uf", "uf.id = cidade.uf_id")
+                    ->where(["uf.sigla" => $uf, "cidade.nome" => $cidade])
+                    ->first();
     }
 }

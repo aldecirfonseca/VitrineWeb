@@ -5,7 +5,7 @@ namespace App\Models;
 class UfModel extends BaseModel
 {
     protected $table = 'uf';
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
 
     protected $allowedFields = ['sigla', 'descricao', 'regiao', 'codIBGE'];
 
@@ -35,31 +35,10 @@ class UfModel extends BaseModel
      * getUf
      *
      * @param string $sigla 
-     * @return array
+     * @return array|null
      */
-    public function getUf($sigla) 
+    public function getUf($sigla)
     {
-        $dados = $this->where("sigla", $sigla)->first();
-
-        if (is_null($dados)) {
-
-            if ($sigla == "MG") {
-
-                $this->save([
-                    "sigla" => "MG",
-                    "descricao" => "Minas Gerais",
-                    "regiao" => 3,
-                    "codIBGE" => "31"
-                ]);
-
-                return $this->where("sigla", "MG")->first();
-
-            } else {
-                return [];
-            }            
-
-        } else {
-            return $dados;
-        }
+        return $this->where("sigla", $sigla)->first();
     }
 }

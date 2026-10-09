@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\CidadeModel;
 use App\Models\UsuarioModel;
 
 class Login extends BaseController
@@ -26,56 +25,7 @@ class Login extends BaseController
 
 		$dadosUsuario = $UsuarioModel->getByEmail(trim($login));
 
-		if (is_null($dadosUsuario)) {
-
-			$CidadeModel = new CidadeModel();
-
-			$aCidade = $CidadeModel->getCidade("MG", "Muriae");
-			$created_at = date("Y-m-d H:i:s");
-
-			// Verifica se existe usuários criados na base de dados
-
-			if (count($UsuarioModel->findAll()) == 0) {
-
-				$aPessoa = [
-					"nome"		        => "Muriae Shop",
-					"ddd1"		        => "32",
-					"celular1"		    => "987654321",
-					"statusRegistro"	=> 1,
-					"created_at"		=> $created_at,
-					"updated_at"		=> $created_at
-				]; 
-		
-				$aEndereco = [
-					"tipoEndereco"      => 1,
-					"logradouro"        => "Praça Irmã Annina Bisegna",
-					"numero"            => "40",
-					"complemento"       => "",
-					"bairro"            => "Centro",
-					"cep"               => "36880083",
-					"cidade_id"         => $aCidade['id'],
-					"created_at"		=> $created_at,
-					"updated_at"		=> $created_at
-				];
-				
-				$aUsuario = [
-					"nome"				=> "Administrador",
-					"nivel"				=> 1,                   // 1 = Administrador
-					"statusRegistro"	=> 1,
-					"email"				=> "administrador@vitrine.com.br",
-					"senha"				=> password_hash("fasm@2026", PASSWORD_DEFAULT),
-					"pessoa_id"		    => null,
-					"created_at"		=> $created_at,
-					"updated_at"		=> $created_at
-				];
-
-                if ($UsuarioModel->insertUsuario($aPessoa, $aEndereco, $aUsuario) > 0) {
-					return redirect()->back()->with("msgSucesso", "Super usuário criado com sucesso, favor efetuar novamente o login")->withInput();
-                } else {
-					return redirect()->back()->with("msgError", "Falha na criação do Super usuário.")->withInput();
-                }
-			}
-		}
+		// O Super usuário é criado pela seed: php spark db:seed DatabaseSeeder
 
 		if (!is_null($dadosUsuario)) {
 
@@ -102,9 +52,15 @@ class Login extends BaseController
 					session()->setTempdata('userNivel'		, $dadosUsuario['nivel']	, $tempoPdraoLogin);
 					session()->setTempdata('userPessoa_id'	, $dadosUsuario['pessoa_id'], $tempoPdraoLogin);
 
-					// 
+					// Aceita apenas caminhos internos (ex: Sistema/home) para evitar redirecionamento para outro site
 
-					return redirect()->to('/' . $post['destino']);
+					$destino = trim($post['destino'] ?? '');
+
+					if (!preg_match('#^[A-Za-z0-9_-]+(/[A-Za-z0-9_-]+)*$#', $destino)) {
+						$destino = 'Sistema/home';
+					}
+
+					return redirect()->to('/' . $destino);
 
 					//
 
