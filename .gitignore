@@ -42,6 +42,10 @@ $RECYCLE.BIN/
 # These should never be under version control,
 # as it poses a security risk.
 .env
+
+# Imagens enviadas pelo painel (upload de produtos): ficam só no servidor
+public/uploads/produto/*
+!public/uploads/produto/.gitkeep
 .vagrant
 Vagrantfile
 

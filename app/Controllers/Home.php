@@ -2,13 +2,49 @@
 
 namespace App\Controllers;
 
+use App\Models\CategoriaModel;
+use App\Models\ProdutoModel;
 use App\Models\UsuarioModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Home extends BaseController
 {
+    /**
+     * Vitrine: produtos ativos com filtro por categoria, busca e paginação.
+     *
+     * Exemplo de URL: /?categoria=3&busca=camisa&page=2
+     */
     public function index(): string
     {
-        return view('home');
+        $categoriaId = (int) $this->request->getGet('categoria') ?: null;
+        $busca       = trim((string) $this->request->getGet('busca')) ?: null;
+
+        $ProdutoModel = new ProdutoModel();
+
+        return view('home', [
+            'produtos'    => $ProdutoModel->vitrine($categoriaId, $busca, 12),
+            'pager'       => $ProdutoModel->pager,
+            'categorias'  => (new CategoriaModel())->listaAtivas(),
+            'categoriaId' => $categoriaId,
+            'busca'       => $busca,
+        ]);
+    }
+
+    /**
+     * Página de detalhe do produto.
+     *
+     * @param int $id
+     */
+    public function produto($id): string
+    {
+        $produto = (new ProdutoModel())->getVitrine((int) $id);
+
+        // Produto inexistente, excluído ou inativo: 404 (não mostra que ele existe)
+        if (is_null($produto)) {
+            throw PageNotFoundException::forPageNotFound('Produto não encontrado.');
+        }
+
+        return view('produtoDetalhe', ['produto' => $produto]);
     }
 
     public function faleconosco()
@@ -59,7 +95,10 @@ class Home extends BaseController
 	 */
 	public function login()
 	{
-		return view("login");
+		// Página que a pessoa tentou abrir antes do login (enviada pelo AuthFilter)
+		$destino = (string) $this->request->getGet("destino");
+
+		return view("login", ["destino" => $destino]);
 	}
 
 	/**
@@ -88,7 +127,11 @@ class Home extends BaseController
 
 		if (is_null($temUsuario)) {
 
-			if (trim($post['senha']) == trim($post['confirmaSenha'])) {
+			if (mb_strlen(trim($post['senha'])) < 6) {
+
+				session()->setFlashdata("msgError", "A senha deve ter pelo menos 6 caracteres.");
+
+			} elseif (trim($post['senha']) == trim($post['confirmaSenha'])) {
 
 				$created_at = date("Y-m-d H:i:s");
 	

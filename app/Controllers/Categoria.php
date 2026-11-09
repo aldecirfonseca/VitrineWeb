@@ -3,33 +3,36 @@
 namespace App\Controllers;
 
 use App\Models\CategoriaModel;
+use App\Models\ProdutoModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Categoria extends BaseController
 {
-    private $CategoriaModel;
+    private const ACOES = ["insert", "update", "delete", "view"];
 
-    /**
-     * Undocumented function
-     */
+    private CategoriaModel $CategoriaModel;
+
     public function __construct()
     {
         $this->CategoriaModel = new CategoriaModel();
     }
 
     /**
-     * Undocumented function
+     * Lista as categorias.
      *
-     * @return void
+     * @return string
      */
     public function index()
     {
-        return view("admin/listaCategoria", 
-            $this->CategoriaModel->lista()
-        );
+        // Antes a lista ia "crua" para a view, que não tinha como acessá-la por um nome.
+        // Agora ela vai dentro de um array associativo e vira a variável $lista na view.
+        return view("admin/listaCategoria", [
+            "lista" => $this->CategoriaModel->lista(),
+        ]);
     }
 
     /**
-     * Exibe o formulário de inclusão/alteração de categoria.
+     * Exibe o formulário de inclusão, alteração, exclusão ou visualização.
      *
      * @param string $action
      * @param int $id
@@ -37,7 +40,20 @@ class Categoria extends BaseController
      */
     public function form($action = "insert", $id = 0)
     {
-        $dados = ($id > 0) ? $this->CategoriaModel->getById($id) : [];
+        if (! in_array($action, self::ACOES, true)) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $dados = [];
+
+        if ($action !== "insert") {
+            $dados = $this->CategoriaModel->getById((int) $id);
+
+            if (is_null($dados)) {
+                throw PageNotFoundException::forPageNotFound("Categoria não encontrada.");
+            }
+        }
+
         $erros = [];
 
         return view("admin/formCategoria", compact("action", "dados", "erros"));
@@ -52,6 +68,10 @@ class Categoria extends BaseController
     {
         $action = $this->request->getPost("action");
         $id     = (int) $this->request->getPost("id");
+
+        if (! in_array($action, ["insert", "update"], true)) {
+            return redirect()->to("Categoria");
+        }
 
         $dados = [
             "id"             => $id > 0 ? $id : null,
@@ -71,7 +91,7 @@ class Categoria extends BaseController
     }
 
     /**
-     * Exclui uma categoria.
+     * Exclui uma categoria (se nenhum produto estiver usando).
      *
      * @return \CodeIgniter\HTTP\RedirectResponse
      */
@@ -79,7 +99,11 @@ class Categoria extends BaseController
     {
         $id = (int) $this->request->getPost("id");
 
-        if (!$this->CategoriaModel->delete($id)) {
+        $totalProdutos = (new ProdutoModel())->totalPorCategoria($id);
+
+        if ($totalProdutos > 0) {
+            session()->setFlashdata("msgError", "Esta categoria tem {$totalProdutos} produto(s) e não pode ser excluída. Inative-a ou mude os produtos de categoria.");
+        } elseif (!$this->CategoriaModel->delete($id)) {
             session()->setFlashdata("msgError", "Erro ao excluir a categoria.");
         } else {
             session()->setFlashdata("msgSucesso", "Categoria excluída com sucesso.");

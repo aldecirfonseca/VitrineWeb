@@ -38,7 +38,8 @@
 
                     <?= form_open("Login/signIn", ["class" => "row g-3", "id" => "loginForm"]) ?>
 
-                        <input type="hidden" name="destino" value="Sistema/home">
+                        <?php // Vem do AuthFilter (?destino=...). Vazio = o signIn usa Sistema/home ?>
+                        <input type="hidden" name="destino" value="<?= esc($destino ?? '') ?>">
 
                         <div class="col-12">
                             <label for="email" class="form-label">E-mail</label>

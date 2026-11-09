@@ -21,7 +21,17 @@ class CategoriaModel extends BaseModel
         ] ,
         "statusRegistro" => [
             "label" => "Status",
-            "rules" => "required|integer"
+            "rules" => "required|in_list[1,2]"
         ]
     ];
+
+    /**
+     * Categorias ativas (combobox do produto, filtros e menu da vitrine).
+     *
+     * @return array
+     */
+    public function listaAtivas(): array
+    {
+        return $this->where("statusRegistro", 1)->orderBy("descricao")->findAll();
+    }
 }

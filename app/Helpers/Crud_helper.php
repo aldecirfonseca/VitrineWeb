@@ -77,6 +77,45 @@ function subTitulo($acao) : string
     } elseif ($acao == "view") {
         return " - Visualização";
     }
+
+    // Sem este return, uma ação desconhecida violava o tipo de retorno "string" (TypeError)
+    return "";
+}
+
+/**
+ * getStatusPedido
+ *
+ * @param int $status
+ * @return string
+ */
+function getStatusPedido($status) : string
+{
+    $aStatus = [
+        1 => "Recebido",
+        2 => "Pago",
+        3 => "Enviado",
+        4 => "Entregue",
+        9 => "Cancelado",
+    ];
+
+    return $aStatus[(int) $status] ?? "...";
+}
+
+/**
+ * getClasseStatusPedido - classe CSS do selo de status do pedido
+ *
+ * @param int $status
+ * @return string
+ */
+function getClasseStatusPedido($status) : string
+{
+    if ((int) $status == 9) {
+        return "status-inativo";
+    } elseif ((int) $status == 4) {
+        return "status-ativo";
+    }
+
+    return "status-indefinido";
 }
 
 /**
@@ -89,13 +128,14 @@ function subTitulo($acao) : string
  */
 function setValue($campo, $dados = [], $defaultValue = "")
 {
-    if (!empty(set_value($campo))) {
-        return set_value($campo);
+    // Comparação com "" (e não empty()): com empty() o valor "0" (ex: estoque zero) era ignorado
+    if (set_value($campo) !== "") {
+        return set_value($campo);           // set_value() já escapa o valor
     } else {
         if (isset($dados[$campo])) {
-            return $dados[$campo];
+            return esc($dados[$campo]);     // escapa também o valor vindo do banco (evita XSS no formulário)
         } else {
-            return $defaultValue;
+            return esc($defaultValue);
         }
     }
 }

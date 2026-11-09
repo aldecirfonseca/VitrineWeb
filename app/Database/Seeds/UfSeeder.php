@@ -13,19 +13,24 @@ class UfSeeder extends Seeder
 
         $aUf = [
             [
-                'sigla' => "MG", 
-                'descricao' => 'Minas Gerais', 
-                'regiao' => '3',            // Sudeste 
+                'sigla' => "MG",
+                'descricao' => 'Minas Gerais',
+                'regiao' => '3',            // Sudeste
                 'codIBGE' => '31'
             ],
             [
-                'sigla' => "RS", 
-                'descricao' => 'Rio Grande do Sul', 
-                'regiao' => '1',            // Sul 
-                'codIBGE' => '15'
+                'sigla' => "RS",
+                'descricao' => 'Rio Grande do Sul',
+                'regiao' => '1',            // Sul
+                'codIBGE' => '43'           // 43 = RS no IBGE (15 é o Pará)
             ]
         ];
 
-        $model->insertBatch($aUf);
+        // Só insere a UF que ainda não existe: a seed pode rodar mais de uma vez sem erro de chave única
+        foreach ($aUf as $uf) {
+            if (is_null($model->getUf($uf['sigla']))) {
+                $model->insert($uf);
+            }
+        }
     }
 }

@@ -75,7 +75,7 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             // 'honeypot',
-            // 'csrf',
+            'csrf',     // todo POST precisa do token: form_open() já coloca o campo oculto
             // 'invalidchars',
         ],
         'after' => [

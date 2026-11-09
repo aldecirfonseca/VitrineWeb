@@ -17,7 +17,13 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (! session()->get('isLoggedIn')) {
-            return redirect()->to('/login')->with('msgError', 'Faça login para acessar o painel administrativo.');
+
+            // Guarda a página que a pessoa tentou abrir: depois do login ela volta para lá
+            // (o Login::signIn só aceita caminhos internos, então não há risco de redirecionar para fora)
+            $destino = uri_string();
+
+            return redirect()->to('login?destino=' . urlencode($destino))
+                             ->with('msgError', 'Faça login para continuar.');
         }
     }
 

@@ -44,58 +44,62 @@
                         <div class="offcanvas-body">
                             <ul class="navbar-nav flex-grow-1 align-items-lg-center">
 
+                                <?php // Categorias vêm do banco (helper categoriasMenu() em Funcoes_helper) ?>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">Coleções</a>
-                                    <div class="dropdown-menu mega-menu">
-                                        <div class="row">
-                                            <div class="col-12 col-md-4">
-                                                <p class="mega-menu-title">Coleção Feminina</p>
-                                                <ul>
-                                                    <li><a href="#">Vestidos</a></li>
-                                                    <li><a href="#">Blusas &amp; Camisas</a></li>
-                                                    <li><a href="#">Camisetas</a></li>
-                                                    <li><a href="#">Macacão</a></li>
-                                                    <li><a href="#">Sutiã &amp; Calcinha</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-12 col-md-4">
-                                                <p class="mega-menu-title">Coleção Masculina</p>
-                                                <ul>
-                                                    <li><a href="#">Camisetas</a></li>
-                                                    <li><a href="#">Pólo</a></li>
-                                                    <li><a href="#">Camisas</a></li>
-                                                    <li><a href="#">Jaquetas</a></li>
-                                                    <li><a href="#">Shorts</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-12 col-md-4">
-                                                <p class="mega-menu-title">Coleção Infantil</p>
-                                                <ul>
-                                                    <li><a href="#">Vestidos</a></li>
-                                                    <li><a href="#">Camisas</a></li>
-                                                    <li><a href="#">Camisetas</a></li>
-                                                    <li><a href="#">Jaquetas</a></li>
-                                                    <li><a href="#">Shorts</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="<?= base_url() ?>#produtos">Todos os produtos</a></li>
+                                        <?php foreach (categoriasMenu() as $categoriaMenu): ?>
+                                            <li>
+                                                <a class="dropdown-item" href="<?= base_url("?categoria=" . $categoriaMenu['id']) ?>#produtos">
+                                                    <?= esc($categoriaMenu['descricao']) ?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
                                 </li>
 
                                 <li class="nav-item"><a class="nav-link" href="<?= base_url("sobrenos") ?>">Quem somos</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?= base_url("faleconosco") ?>">Contato</a></li>
 
+                                <!-- Itens só do menu mobile -->
                                 <li class="nav-item d-lg-none mt-2">
-                                    <a class="nav-link" href="<?= base_url("login") ?>">Entre ou Cadastre-se</a>
+                                    <a class="nav-link" href="<?= base_url("Carrinho") ?>">Carrinho (<?= qtdItensCarrinho() ?>)</a>
                                 </li>
+                                <?php if (session()->get('isLoggedIn')): ?>
+                                    <li class="nav-item d-lg-none"><a class="nav-link" href="<?= base_url("MeusPedidos") ?>">Meus pedidos</a></li>
+                                    <li class="nav-item d-lg-none"><a class="nav-link" href="<?= base_url("Login/signOut") ?>">Sair</a></li>
+                                <?php else: ?>
+                                    <li class="nav-item d-lg-none"><a class="nav-link" href="<?= base_url("login") ?>">Entre ou Cadastre-se</a></li>
+                                <?php endif; ?>
                             </ul>
 
                             <div class="d-none d-lg-flex align-items-center ms-3">
-                                <a href="#" class="icon-link" title="Pesquisar"><i class="fa fa-search"></i></a>
-                                <a href="<?= base_url("login") ?>" class="icon-link" title="Minha conta"><i class="fa fa-user-o"></i></a>
-                                <a href="#" class="icon-link" title="Carrinho">
+                                <a href="<?= base_url() ?>#produtos" class="icon-link" title="Pesquisar"><i class="fa fa-search"></i></a>
+
+                                <?php if (session()->get('isLoggedIn')): ?>
+                                    <div class="dropdown">
+                                        <a href="#" class="icon-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                                           title="<?= esc(session()->get('userNome')) ?>"><i class="fa fa-user"></i></a>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            <li><span class="dropdown-item-text small text-muted"><?= esc(session()->get('userNome')) ?></span></li>
+                                            <li><a class="dropdown-item" href="<?= base_url("MeusPedidos") ?>">Meus pedidos</a></li>
+                                            <?php if ((int) session()->get('userNivel') === 1): ?>
+                                                <li><a class="dropdown-item" href="<?= base_url("Sistema/home") ?>">Painel administrativo</a></li>
+                                            <?php endif; ?>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="<?= base_url("Login/signOut") ?>">Sair</a></li>
+                                        </ul>
+                                    </div>
+                                <?php else: ?>
+                                    <a href="<?= base_url("login") ?>" class="icon-link" title="Minha conta"><i class="fa fa-user-o"></i></a>
+                                <?php endif; ?>
+
+                                <a href="<?= base_url("Carrinho") ?>" class="icon-link" title="Carrinho">
                                     <i class="fa fa-shopping-bag"></i>
-                                    <span class="badge rounded-pill bg-dark">3</span>
+                                    <?php if (qtdItensCarrinho() > 0): ?>
+                                        <span class="badge rounded-pill bg-dark"><?= qtdItensCarrinho() ?></span>
+                                    <?php endif; ?>
                                 </a>
                             </div>
                         </div>
@@ -149,7 +153,7 @@
                     <div class="col-6 col-md-4">
                         <h6>Ajuda</h6>
                         <ul>
-                            <li><a href="#">Status do Pedido</a></li>
+                            <li><a href="<?= base_url("MeusPedidos") ?>">Status do Pedido</a></li>
                             <li><a href="#">Opções de Pagamento</a></li>
                             <li><a href="#">Envio e Entrega</a></li>
                             <li><a href="#">Políticas de Privacidade</a></li>

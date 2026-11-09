@@ -14,90 +14,74 @@
     </div>
 </section>
 
-<!-- ##### Promoções ##### -->
-<section class="py-5">
-    <div class="container">
-        <div class="section-heading text-center">
-            <span class="section-eyebrow">Ofertas da semana</span>
-            <h2>Promoções</h2>
-            <p class="mx-auto">Aproveite descontos especiais em peças selecionadas por tempo limitado.</p>
-        </div>
-
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-
-            <?php
-                $promocoes = [
-                    ["img" => "product-1.jpg", "categoria" => "Vestidos", "titulo" => "Vestido tecido azul", "de" => "150,00", "por" => "99,00", "id" => 1],
-                    ["img" => "product-2.jpg", "categoria" => "Vestidos", "titulo" => "Vestido envelope popeline", "de" => "150,00", "por" => "99,00", "id" => 2],
-                    ["img" => "product-3.jpg", "categoria" => "Vestidos", "titulo" => "Vestido envelope popeline", "de" => "150,00", "por" => "99,00", "id" => 3],
-                    ["img" => "product-4.jpg", "categoria" => "Vestidos", "titulo" => "Vestido envelope popeline", "de" => "150,00", "por" => "99,00", "id" => 4],
-                ];
-            ?>
-
-            <?php foreach ($promocoes as $produto): ?>
-                <div class="col">
-                    <div class="product-card">
-                        <div class="product-thumb">
-                            <span class="product-badge">Promoção</span>
-                            <img src="<?= base_url() ?>assets/uploads/produtos/<?= $produto['img'] ?>" alt="<?= $produto['titulo'] ?>">
-                            <div class="add-to-cart">
-                                <a href="<?= base_url() ?>carrinho-compras" class="btn btn-brand btn-sm w-100">Adicionar ao carrinho</a>
-                            </div>
-                        </div>
-                        <div class="product-body">
-                            <span class="product-category"><?= $produto['categoria'] ?></span>
-                            <a href="<?= base_url() ?>produtoDetalhes/<?= $produto['id'] ?>" class="product-title"><?= $produto['titulo'] ?></a>
-                            <div class="product-price">
-                                <span class="price-old">R$ <?= $produto['de'] ?></span>
-                                <span class="price-current">R$ <?= $produto['por'] ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-
-        </div>
-    </div>
-</section>
-
-<!-- ##### Nossos produtos ##### -->
+<!-- ##### Vitrine (produtos do banco) ##### -->
 <section id="produtos" class="py-5 bg-light">
     <div class="container">
+
         <div class="section-heading text-center">
             <span class="section-eyebrow">Catálogo completo</span>
             <h2>Nossos produtos</h2>
-            <p class="mx-auto">Explore as últimas novidades das nossas coleções feminina, masculina e infantil.</p>
         </div>
 
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <?= mensagem() ?>
 
-            <?php
-                $produtos = [
-                    ["img" => "product-1.jpg", "titulo" => "Vestido tecido azul", "preco" => "150,00", "id" => 5],
-                    ["img" => "product-2.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 6],
-                    ["img" => "product-3.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 7],
-                    ["img" => "product-4.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 8],
-                    ["img" => "product-5.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 9],
-                    ["img" => "product-6.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 10],
-                    ["img" => "product-7.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 11],
-                    ["img" => "product-8.jpg", "titulo" => "Vestido envelope popeline", "preco" => "180,00", "id" => 12],
-                ];
-            ?>
+        <!-- Filtros: formulário GET (não precisa de CSRF, só lê dados) -->
+        <form method="get" action="<?= base_url() ?>#produtos" class="row g-2 justify-content-center mb-4">
+            <div class="col-12 col-md-5">
+                <input type="search" name="busca" class="form-control" placeholder="Buscar pelo nome..."
+                       value="<?= esc($busca ?? '') ?>" aria-label="Buscar produto">
+            </div>
+            <div class="col-8 col-md-3">
+                <select name="categoria" class="form-select" aria-label="Categoria">
+                    <option value="">Todas as categorias</option>
+                    <?php foreach ($categorias as $categoria): ?>
+                        <option value="<?= $categoria['id'] ?>" <?= $categoriaId == $categoria['id'] ? 'selected' : '' ?>>
+                            <?= esc($categoria['descricao']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-4 col-md-auto">
+                <button type="submit" class="btn btn-brand w-100"><i class="fa fa-search me-1"></i> Filtrar</button>
+            </div>
+            <?php if ($busca || $categoriaId): ?>
+                <div class="col-12 text-center">
+                    <a href="<?= base_url() ?>#produtos" class="small">Limpar filtros</a>
+                </div>
+            <?php endif; ?>
+        </form>
+
+        <?php if (empty($produtos)): ?>
+            <p class="text-center text-muted py-5">Nenhum produto encontrado.</p>
+        <?php endif; ?>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
 
             <?php foreach ($produtos as $produto): ?>
                 <div class="col">
                     <div class="product-card">
                         <div class="product-thumb">
-                            <img src="<?= base_url() ?>assets/uploads/produtos/<?= $produto['img'] ?>" alt="<?= $produto['titulo'] ?>">
-                            <div class="add-to-cart">
-                                <a href="<?= base_url() ?>carrinho-compras" class="btn btn-brand btn-sm w-100">Adicionar ao carrinho</a>
-                            </div>
+                            <?php if ($produto['estoque'] == 0): ?>
+                                <span class="product-badge">Esgotado</span>
+                            <?php endif; ?>
+                            <a href="<?= base_url("produto/" . $produto['id']) ?>">
+                                <img src="<?= imagemProduto($produto['imagem']) ?>" alt="<?= esc($produto['nome']) ?>">
+                            </a>
+                            <?php if ($produto['estoque'] > 0): ?>
+                                <div class="add-to-cart">
+                                    <?= form_open("Carrinho/adicionar") ?>
+                                        <input type="hidden" name="produto_id" value="<?= $produto['id'] ?>">
+                                        <input type="hidden" name="quantidade" value="1">
+                                        <button type="submit" class="btn btn-brand btn-sm w-100">Adicionar ao carrinho</button>
+                                    <?= form_close() ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="product-body">
-                            <span class="product-category">Vestidos</span>
-                            <a href="<?= base_url() ?>produtoDetalhes/<?= $produto['id'] ?>" class="product-title"><?= $produto['titulo'] ?></a>
+                            <span class="product-category"><?= esc($produto['categoria']) ?></span>
+                            <a href="<?= base_url("produto/" . $produto['id']) ?>" class="product-title"><?= esc($produto['nome']) ?></a>
                             <div class="product-price">
-                                <span class="price-current">R$ <?= $produto['preco'] ?></span>
+                                <span class="price-current">R$ <?= formatValor($produto['preco']) ?></span>
                             </div>
                         </div>
                     </div>
@@ -105,6 +89,12 @@
             <?php endforeach; ?>
 
         </div>
+
+        <div class="mt-5">
+            <?php // only(): os links de página mantêm a busca e a categoria na URL ?>
+            <?= $pager->only(['busca', 'categoria'])->links('default', 'bootstrap') ?>
+        </div>
+
     </div>
 </section>
 

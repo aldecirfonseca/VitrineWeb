@@ -37,21 +37,24 @@
 
                 <div class="collapse navbar-collapse" id="adminMenu">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url("Sistema/home") ?>">Início</a></li>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cadastros</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="<?= base_url("Categoria") ?>">Categoria</a></li>
-                                <li><a class="dropdown-item" href="#">Produto</a></li>
+                                <li><a class="dropdown-item" href="<?= base_url("Produto") ?>">Produto</a></li>
                             </ul>
                         </li>
+
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url("Pedido") ?>">Pedidos</a></li>
                     </ul>
 
                     <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>" target="_blank"><i class="fa fa-external-link me-1"></i> Ver loja</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-user-circle me-1"></i> Aldecir Fonseca
+                                <i class="fa fa-user-circle me-1"></i> <?= esc(session()->get('userNome')) ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#">Trocar a senha</a></li>
@@ -78,6 +81,9 @@
         <script src="<?= base_url() ?>assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
         <!-- Theme -->
         <script src="<?= base_url() ?>assets/js/theme.js"></script>
+
+        <!-- Scripts específicos de cada página (ex: CKEditor no formulário de produto) -->
+        <?= $this->renderSection("scripts") ?>
 
     </body>
 

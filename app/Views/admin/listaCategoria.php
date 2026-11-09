@@ -33,10 +33,16 @@
 
                 <tbody>
 
-                    <?php foreach ($this->data as $row): ?>
+                    <?php if (empty($lista)): ?>
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">Nenhuma categoria cadastrada.</td>
+                        </tr>
+                    <?php endif; ?>
+
+                    <?php foreach ($lista as $row): ?>
                         <tr>
                             <td><?= $row['id'] ?></td>
-                            <td><?= $row['descricao'] ?></td>
+                            <td><?= esc($row['descricao']) ?></td>
                             <td>
                                 <?php
                                     $statusClasse = $row['statusRegistro'] == 1 ? 'status-ativo' : ($row['statusRegistro'] == 2 ? 'status-inativo' : 'status-indefinido');
