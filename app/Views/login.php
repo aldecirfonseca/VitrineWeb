@@ -60,7 +60,7 @@
                                 <input type="checkbox" class="form-check-input" id="manterConectado" name="manterConectado">
                                 <label class="form-check-label" for="manterConectado">Mantenha-me conectado</label>
                             </div>
-                            <a href="#" class="small">Esqueceu a senha?</a>
+                            <a href="<?= base_url("esqueciSenha") ?>" class="small">Esqueceu a senha?</a>
                         </div>
 
                         <div class="col-12">

@@ -40,27 +40,41 @@ $routes->group("MeusPedidos", ["filter" => "auth"], static function ($routes) {
     $routes->get("(:num)", "Pedido::meuDetalhe/$1");
 });
 
-// ---------------------------------------------------------------------
-// Painel administrativo
-// (na Aula 3 estes grupos passam a usar "auth:1", só para administradores)
-// ---------------------------------------------------------------------
-$routes->get("Sistema/home", "Sistema::home", ["filter" => "auth"]);
+// Senha: recuperar (sem login) e trocar (logado)
+$routes->get("esqueciSenha", "Senha::esqueci");
+$routes->post("esqueciSenha", "Senha::enviarLink");
+$routes->get("redefinirSenha/(:alphanum)", "Senha::redefinir/$1");
+$routes->post("redefinirSenha", "Senha::gravar");
+$routes->get("trocarSenha", "Senha::trocar", ["filter" => "auth"]);
+$routes->post("trocarSenha", "Senha::gravarTroca", ["filter" => "auth"]);
 
-$routes->group("Categoria", ["filter" => "auth"], static function ($routes) {
+// ---------------------------------------------------------------------
+// Painel administrativo: "auth:1" = logado E com nível 1 (administrador).
+// Cliente logado que digitar estas URLs volta para a loja com aviso.
+// ---------------------------------------------------------------------
+$routes->get("Sistema/home", "Sistema::home", ["filter" => "auth:1"]);
+
+$routes->group("Usuario", ["filter" => "auth:1"], static function ($routes) {
+    $routes->get("/", "Usuario::index");
+    $routes->get("form/(:alpha)/(:num)", "Usuario::form/$1/$2");
+    $routes->post("store", "Usuario::store");
+});
+
+$routes->group("Categoria", ["filter" => "auth:1"], static function ($routes) {
     $routes->get("/", "Categoria::index");
     $routes->get("form/(:alpha)/(:num)", "Categoria::form/$1/$2");
     $routes->post("store", "Categoria::store");
     $routes->post("delete", "Categoria::delete");
 });
 
-$routes->group("Produto", ["filter" => "auth"], static function ($routes) {
+$routes->group("Produto", ["filter" => "auth:1"], static function ($routes) {
     $routes->get("/", "Produto::index");
     $routes->get("form/(:alpha)/(:num)", "Produto::form/$1/$2");
     $routes->post("store", "Produto::store");
     $routes->post("delete", "Produto::delete");
 });
 
-$routes->group("Pedido", ["filter" => "auth"], static function ($routes) {
+$routes->group("Pedido", ["filter" => "auth:1"], static function ($routes) {
     $routes->get("/", "Pedido::index");
     $routes->get("form/view/(:num)", "Pedido::form/$1");
     $routes->post("status", "Pedido::status");

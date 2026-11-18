@@ -44,6 +44,23 @@ function exibeTitulo($titulo, $parametro = ['acao' => 'lista'])
 
 
 /**
+ * getNivel - descrição do nível de acesso do usuário
+ *
+ * @param int $nivel
+ * @return string
+ */
+function getNivel($nivel) : string
+{
+    if ((int) $nivel === 1) {
+        return "Administrador";
+    } elseif ((int) $nivel === 11) {
+        return "Cliente";
+    }
+
+    return "...";
+}
+
+/**
  * getStatusRegistro
  *
  * @param int $status 

@@ -48,6 +48,7 @@
                         </li>
 
                         <li class="nav-item"><a class="nav-link" href="<?= base_url("Pedido") ?>">Pedidos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url("Usuario") ?>">Usuários</a></li>
                     </ul>
 
                     <ul class="navbar-nav">
@@ -57,7 +58,7 @@
                                 <i class="fa fa-user-circle me-1"></i> <?= esc(session()->get('userNome')) ?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Trocar a senha</a></li>
+                                <li><a class="dropdown-item" href="<?= base_url("trocarSenha") ?>">Trocar a senha</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="<?= base_url("Login/signOut") ?>">Sair</a></li>
                             </ul>

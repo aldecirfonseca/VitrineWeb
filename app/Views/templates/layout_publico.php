@@ -84,6 +84,8 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><span class="dropdown-item-text small text-muted"><?= esc(session()->get('userNome')) ?></span></li>
                                             <li><a class="dropdown-item" href="<?= base_url("MeusPedidos") ?>">Meus pedidos</a></li>
+                                            <li><a class="dropdown-item" href="<?= base_url("trocarSenha") ?>">Trocar a senha</a></li>
+                                            <?php // Esconder o link é só conforto: quem protege o painel é o filtro "auth:1" nas rotas ?>
                                             <?php if ((int) session()->get('userNivel') === 1): ?>
                                                 <li><a class="dropdown-item" href="<?= base_url("Sistema/home") ?>">Painel administrativo</a></li>
                                             <?php endif; ?>

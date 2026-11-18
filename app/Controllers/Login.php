@@ -57,7 +57,8 @@ class Login extends BaseController
 					$destino = trim($post['destino'] ?? '');
 
 					if (!preg_match('#^[A-Za-z0-9_-]+(/[A-Za-z0-9_-]+)*$#', $destino)) {
-						$destino = 'Sistema/home';
+						// Sem destino: administrador vai para o painel, cliente vai para a loja
+						$destino = ((int) $dadosUsuario['nivel'] === 1) ? 'Sistema/home' : '';
 					}
 
 					return redirect()->to('/' . $destino);

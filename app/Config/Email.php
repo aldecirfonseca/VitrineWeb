@@ -6,9 +6,23 @@ use CodeIgniter\Config\BaseConfig;
 
 class Email extends BaseConfig
 {
-    public string $fromEmail  = '';
-    public string $fromName   = '';
+    // ------------------------------------------------------------------
+    // VitrineWeb: envio pela caixa de testes do Mailtrap (https://mailtrap.io).
+    // Os e-mails ficam presos na caixa e não chegam a ninguém de verdade.
+    //
+    // Usuário e senha do SMTP NÃO ficam aqui (este arquivo vai para o Git).
+    // Coloque no .env:
+    //   email.SMTPUser = <usuário da sua caixa no Mailtrap>
+    //   email.SMTPPass = <senha da sua caixa no Mailtrap>
+    // ------------------------------------------------------------------
+    public string $fromEmail  = 'nao-responda@vitrineweb.local';
+    public string $fromName   = 'VitrineWeb';
     public string $recipients = '';
+
+    /**
+     * Caixa da loja que recebe as mensagens do "Fale conosco".
+     */
+    public string $emailLoja = 'contato@vitrineweb.local';
 
     /**
      * The "user agent"
@@ -18,7 +32,7 @@ class Email extends BaseConfig
     /**
      * The mail sending protocol: mail, sendmail, smtp
      */
-    public string $protocol = 'mail';
+    public string $protocol = 'smtp';
 
     /**
      * The server path to Sendmail.
@@ -28,7 +42,7 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = '';
+    public string $SMTPHost = 'sandbox.smtp.mailtrap.io';
 
     /**
      * Which SMTP authentication method to use: login, plain
@@ -48,7 +62,7 @@ class Email extends BaseConfig
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 25;
+    public int $SMTPPort = 2525;
 
     /**
      * SMTP Timeout (in seconds)
@@ -82,7 +96,7 @@ class Email extends BaseConfig
     /**
      * Type of mail, either 'text' or 'html'
      */
-    public string $mailType = 'text';
+    public string $mailType = 'html';
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)

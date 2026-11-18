@@ -77,6 +77,27 @@ class Home extends BaseController
             return view("faleconosco", compact("dados", "erros"));
         }
 
+        // A mensagem vai para a caixa da loja; o "Responder" já cai no e-mail do visitante
+        $enviado = \App\Libraries\EnvioEmail::enviar(
+            config('Email')->emailLoja,
+            "[Site] " . $dados['assunto'],
+            "contato",
+            [
+                "nome"     => $dados['nome'],
+                "email"    => $dados['email'],
+                "assunto"  => $dados['assunto'],
+                "mensagem" => $dados['mensagem'],
+            ],
+            $dados['email'],
+            $dados['nome']
+        );
+
+        if (! $enviado) {
+            session()->setFlashdata("msgError", "Não foi possível enviar sua mensagem agora. Tente de novo em alguns minutos.");
+
+            return view("faleconosco", ["dados" => $dados, "erros" => []]);
+        }
+
         session()->setFlashdata("msgSucesso", "Sua mensagem foi enviada com sucesso! Em breve entraremos em contato.");
 
         return redirect()->to("faleconosco");

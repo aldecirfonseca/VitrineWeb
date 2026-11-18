@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\EnvioEmail;
 use App\Models\PedidoItemModel;
 use App\Models\PedidoModel;
 use App\Models\ProdutoModel;
@@ -185,6 +186,19 @@ class Carrinho extends BaseController
         }
 
         session()->remove("carrinho");
+
+        // E-mail de confirmação. Vem DEPOIS do commit: se o e-mail falhar,
+        // o pedido continua gravado (o envio só fica registrado no log).
+        EnvioEmail::enviar(
+            (string) session()->get("userEmail"),
+            "VitrineWeb - Pedido #{$pedidoId} recebido",
+            "pedidoConfirmado",
+            [
+                "nome"   => session()->get("userNome"),
+                "pedido" => $PedidoModel->find($pedidoId),
+                "itens"  => (new PedidoItemModel())->getByPedido($pedidoId),
+            ]
+        );
 
         return redirect()->to("Carrinho/confirmacao/" . $pedidoId);
     }
